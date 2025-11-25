@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林紘宇 (Lin Hong Yu) | 軟體工程師作品集</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- 基礎設定 (Variables & Reset) --- */
+        :root {
+            --primary-color: #2563eb; /* 科技藍 */
+            --secondary-color: #1e40af; /* 深藍 */
+            --accent-color: #fbbf24; /* 亮黃點綴 */
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 關鍵：防止寬度跑版 */
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+            overflow-x: hidden; /* 防止水平卷軸 */
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 導覽列 (Navigation) --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- 首頁區塊 (Hero Section) --- */
+        #home {
+            height: 100vh;
+            /* 預設深藍色背景，若有圖片則覆蓋 */
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.4), rgba(37, 99, 235, 0.3)), url('images/bg_hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+            margin-top: 0;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--text-dark);
+        }
+        
+        .btn-primary:hover {
+            background: #f59e0b;
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* --- 通用區塊設定 --- */
+        section {
+            padding: 6rem 2rem; /* 增加頂部間距避免被導覽列遮擋 */
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            width: 50%;
+            height: 3px;
+            background: var(--accent-color);
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+        }
+
+        /* --- 關於我 (About) --- */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* 左圖右文 */
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            text-align: justify; /* 讓文字左右對齊 */
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item strong {
+            display: block;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- 技能專長 (Skills) --- */
+        #skills {
+            background-color: var(--bg-light);
+            width: 100%; /* 確保背景色滿版 */
+            max-width: 100%;
+        }
+        
+        #skills .skills-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .skill-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background: #e0e7ff;
+            color: var(--secondary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* --- 專案作品 (Projects) --- */
+        .featured-project {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0; /* 圖片與內容無縫 */
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 4rem;
+        }
+
+        .featured-img {
+            background: #f3f4f6;
+            min-height: 350px;
+            position: relative;
+        }
+        
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .featured-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-badge {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 0.3rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* --- 經歷與獎項 (Experience & Awards) --- */
+        #awards {
+            background-color: #f9fafb;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        .award-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .award-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start; /* 對齊圖標與文字頂部 */
+        }
+
+        .award-list li i {
+            color: var(--accent-color);
+            margin-right: 15px;
+            margin-top: 4px;
+        }
+
+        /* --- 頁尾 (Footer) --- */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links a {
+            font-size: 1.8rem;
+            margin: 0 15px;
+            color: white;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* --- RWD 手機適配 (關鍵：防止跑版) --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-container { grid-template-columns: 1fr; text-align: center; } /* 手機版變成單欄 */
+            .about-img { margin: 0 auto; max-width: 300px; }
+            .stats { justify-content: center; }
+            .featured-project { grid-template-columns: 1fr; } /* 手機版專案變單欄 */
+            .featured-img { min-height: 250px; }
+            .nav-links { display: none; } /* 手機版暫時隱藏選單 */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">Lin Hong Yu.</div>
+            <nav class="nav-links">
+                <a href="#about">關於我</a>
+                <a href="#skills">專業技能</a>
+                <a href="#projects">精選專案</a>
+                <a href="#awards">榮譽與經歷</a>
+                <a href="#contact">聯絡我</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home">
+        <div class="hero-content">
+            <h1>你好，我是 林紘宇</h1>
+            <h2>軟體工程師 | Unity 開發者 | 系統分析師</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">兼具系統開發能力與商業分析思維，將技術轉化為實際價值。</p>
+            <a href="#projects" class="btn btn-primary">查看作品集</a>
+            <a href="#contact" class="btn btn-outline">聯絡我</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-title">
+            <h2>關於我 (About Me)</h2>
+        </div>
+        <div class="about-container">
+            <div class="about-img">
+                <img src="images/profile.jpg" alt="林紘宇 個人照片">
+            </div>
+            <div class="about-text">
+                <p>
+                    我畢業於<strong>嘉義大學資訊管理學系</strong>。在程式開發與專案實作上有兩年半的經驗，
+                    擅長將技術應用於解決真實世界的商業與教育問題。
+                </p>
+                <p>
+                    我不僅是一名開發者，更具備跨領域的溝通能力。曾任<strong>系羽毛球隊隊長</strong>三年，
+                    並在畢業專題中帶領團隊入圍 <strong>Innoserve 全國資訊服務競賽決賽</strong>。
+                    我的目標是結合資訊專業與商業思維，開發出能真正支持組織目標的系統。
+                </p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <strong>2.5 年+</strong>
+                        開發經驗
+                    </div>
+                    <div class="stat-item">
+                        <strong>4+</strong>
+                        完整專案
+                    </div>
+                    <div class="stat-item">
+                        <strong>Innoserve</strong>
+                        決賽入圍
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="skills-container">
+            <div class="section-title">
+                <h2>專業技能 (Skills)</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <h3>遊戲 & AR 開發</h3>
+                    <p>具備 Unity 與 C# 實戰經驗，能整合 Firebase 資料庫。</p>
+                    <div class="skill-tags">
+                        <span class="tag">Unity 3D</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">AR Foundation</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-solid fa-code"></i>
+                    <h3>網站開發</h3>
+                    <p>熟悉動態與靜態網頁製作，以及資料庫串接。</p>
+                    <div class="skill-tags">
+                        <span class="tag">HTML/CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Shiny (R)</span>
+                        <span class="tag">Firebase</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>分析與管理</h3>
+                    <p>具備資料分析能力與 ERP 規劃證照。</p>
+                    <div class="skill-tags">
+                        <span class="tag">SQL</span>
+                        <span class="tag">數據分析</span>
+                        <span class="tag">ERP 規劃師</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="section-title">
+            <h2>精選專案 (Projects)</h2>
+        </div>
+
+        <div class="featured-project">
+            <div class="featured-img">
+                <img src="images/project_ar.jpg" alt="狀元及地 AR App">
+            </div>
+            <div class="featured-content">
+                <span class="featured-badge">產學合作代表作</span>
+                <h3>狀元及地 - AR 輔助地球科學教育應用</h3>
+                <p style="margin: 1rem 0; color: var(--text-light);">
+                    與<strong>翰林出版</strong>合作開發。利用 AR 技術將抽象地科知識具象化，
+                    並整合 Firebase 資料庫進行學生答題數據分析，提供教師教學反饋。
+                </p>
+                <ul style="margin-bottom: 1.5rem; list-style: disc; padding-left: 1.2rem; color: var(--text-dark);">
+                    <li><strong>角色：</strong> 組長、核心程式開發、數據分析</li>
+                    <li><strong>技術：</strong> Unity, C#, Firebase, Android/iOS</li>
+                    <li><strong>成就：</strong> Innoserve 決賽入圍、獲得企業資源支持</li>
+                </ul>
+                <a href="https://docs.google.com/presentation/d/1e494HuKbEc5V0t3h7QPUObqWg4aYxX9H/edit?usp=sharing&ouid=113226043755585847340&rtpof=true&sd=true" class="btn btn-primary" style="align-self: flex-start;">查看專案詳情</a>
+            </div>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card">
+                <a href="https://lucao-github-io.netlify.app/project" target="_blank" style="display: block; color: inherit; text-decoration: none;">
+                    <img src="images/project_web.jpg" alt="鹿上有草網站">
+                    <div class="project-info">
+                        <h3>鹿上有草 - 觀光導覽網站</h3>
+                        <p class="tag" style="display:inline-block; margin-bottom:0.5rem;">Web Design</p>
+                        <p style="font-size: 0.9rem; color: var(--text-light);">
+                            介紹嘉義縣鹿草鄉的旅遊景點與美食，整合交通路線與實地考察建議，提供深度旅遊體驗。
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="project-card">
+                <!--
+                <img src="images/project_system.jpg" alt="進銷存系統">
+                -->
+                <div style="height: 200px; background: #e0e7ff; display:flex; align-items:center; justify-content:center;">
+                    <i class="fa-solid fa-users-viewfinder" style="font-size: 3rem; color: var(--primary-color);"></i>
+                </div>
+                <div class="project-info">
+                    <h3>企業進銷存管理系統</h3>
+                    <p class="tag" style="display:inline-block; margin-bottom:0.5rem;">System Design</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">
+                        協助客戶建立完整進銷存流程，提高生產效率並降低人力成本。
+                    </p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <a href="https://docs.google.com/presentation/d/1oGXZXzvFjiguVHgGD72fa8dyRn7GckGm/edit?usp=sharing&ouid=113226043755585847340&rtpof=true&sd=true" target="_blank" style="display: block; color: inherit; text-decoration: none;">
+                    <!--
+                    <div style="height: 200px; background: #e0e7ff; display:flex; align-items:center; justify-content:center;">
+                        <i class="fa-solid fa-users-viewfinder" style="font-size: 3rem; color: var(--primary-color);"></i>
+                    </div>
+                    -->
+                    <img src="images/project_class.jpg" alt="去中心化點名系統">
+                    <div class="project-info">
+                        <h3>去中心化點名系統</h3>
+                        <p class="tag" style="display:inline-block; margin-bottom:0.5rem;">Attendance</p>
+                        <p style="font-size: 0.9rem; color: var(--text-light);">
+                            利用去中心化概念，為周遭九宮格的人點名，防範代點名漏洞，實現更公平且效率的課堂管理。
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="awards">
+        <div class="section-title">
+            <h2>榮譽與經歷 (Experience & Awards)</h2>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-date">2022/12 - 2024/02</span>
+                <h3>軟體工程師 (產學合作) | 翰林出版事業股份有限公司</h3>
+                <p style="margin-top: 0.5rem; color: var(--text-light);">負責《狀元及地》App 開發，優化使用者UI，連接資料庫數據進行數據分析。</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>🏆 競賽獲獎紀錄</h3>
+                <ul class="award-list">
+                    <li><i class="fa-solid fa-trophy"></i> Innoserve 全國大專院校資訊應用服務創新競賽 - 決賽</li>
+                    <li><i class="fa-solid fa-trophy"></i> 管理資訊系統專案競賽 - 第一名</li>
+                    <li><i class="fa-solid fa-medal"></i> 系統分析與設計學科競賽 - 第三名</li>
+                    <li><i class="fa-solid fa-medal"></i> 電子商務 / 創業管理 / 網頁程式設計 / 視窗程式設計 - 第二名</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 專業證照</h3>
+                <ul class="award-list">
+                    <li><i class="fa-solid fa-certificate"></i> ERP 規劃師 (Planner of ERP)</li>
+                    <li><i class="fa-solid fa-language"></i> TOEIC 多益測驗 700 分</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="section-title" style="margin-bottom: 1rem;">
+            <h2 style="color: white;">聯絡我 (Contact)</h2>
+        </div>
+        <p style="margin-bottom: 3rem; opacity: 0.8;">感謝您瀏覽我的作品集，歡迎隨時聯繫討論合作機會！</p>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:bernie910621@gmail.com">bernie910621@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>0908-360-621</span>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>高雄市 (可隨時上班)</span>
+            </div>
+        </div>
+
+        <div class="social-links" style="margin-top: 2rem;">
+            <a href="#" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="mailto:bernie910621@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+        
+        <p style="margin-top: 3rem; font-size: 0.8rem; opacity: 0.5;">&copy; 2025 Lin Hong Yu. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
