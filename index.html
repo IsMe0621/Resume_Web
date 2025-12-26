@@ -667,6 +667,68 @@
         
         <p style="margin-top: 3rem; font-size: 0.8rem; opacity: 0.5;">&copy; 2025 Lin Hong Yu. All Rights Reserved.</p>
     </footer>
-
+    <script>
+        // 1. 手機版選單切換 (Mobile Menu Toggle)
+        const menuToggle = document.querySelector('#mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+    
+        // 點擊漢堡按鈕時，切換選單顯示狀態
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active'); // 按鈕變形
+            navLinks.classList.toggle('active');      // 選單滑入
+        });
+    
+        // 點擊任一連結後，自動收起選單 (提升手機體驗)
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuToggle.classList.remove('is-active');
+                navLinks.classList.remove('active');
+            });
+        });
+    
+        // 2. 平滑滾動 (Smooth Scroll) - 支援舊瀏覽器
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // 阻止預設的瞬間跳轉
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // 計算 header 高度，避免標題被遮住
+                    const headerOffset = 70; 
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    
+        // 3. 滾動淡入動畫 (Scroll Animation using Intersection Observer)
+        //這是一個效能極佳的現代寫法，就像請一個警衛盯著螢幕看
+        const observerOptions = {
+            root: null,    // 以視窗為基準
+            rootMargin: '0px',
+            threshold: 0.2 // 當元素出現 20% 在畫面中時觸發
+        };
+    
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-section'); // 加入 CSS class 觸發動畫
+                    observer.unobserve(entry.target); // 動畫跑過一次就不再監聽 (節省效能)
+                }
+            });
+        }, observerOptions);
+    
+        // 抓取所有被標記為 hidden-section 的元素並開始監聽
+        document.querySelectorAll('.hidden-section').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
